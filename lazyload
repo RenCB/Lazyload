@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>lazyload</title>
+    <style>
+        .img1{
+            width:300px;
+            height:188px;
+            background-color:burlywood;
+            float: left;
+            margin: 10px;
+            
+        }
+    </style>
+    <script>
+        window.onload=function(){
+
+            start();
+
+            window.onscroll=function(){
+                var lock;//节流，图片延后加载
+                if(lock){
+                    clearTimeout(lock);
+                }else{
+                    lock = setTimeout(start,500);
+                }
+              //start();
+            }
+
+            function viewArea(v,t,obj){//检测是否到达可视区
+                for(var i=0;i<obj.children.length;i++){
+                    if(v + t > getPos(obj.children[i]).top && !obj.children[i].isLoad){
+                        obj.children[i].isLoad=true;//已经加载完不设为true 不会重复加载
+                        loadImg(obj.children[i]);
+                    }
+                }
+            }
+
+            function loadImg(itemObj){//加载图片
+                var itemPath = itemObj.getAttribute("imgsrc");//获取元素属性里存储的url值
+                itemObj.style.backgroundImage = 'url('+itemPath+')';
+                console.log("Pic have been loaded!");//测试，一共加载20次不会重复加载
+            }
+
+            function start(){
+                var oDiv = document.getElementById('div1');
+                var viewHeight = document.documentElement.clientHeight || document.body.clientHeight;//获取浏览器高度
+                var topScroll = document.documentElement.scrollTop || document.body.scrollTop;//获取垂直滚动条高度
+                viewArea(viewHeight,topScroll,oDiv);
+            }
+
+            function getPos(obj){//获取每个元素的最终距离根元素的左边距和顶部距离
+                var l=0,t=0;
+                while(obj){
+                    l += obj.offsetLeft;
+                    t += obj.offsetTop;
+                    obj = obj.offseParent;
+                }
+
+                return {left:l,top:t};
+            }
+        }
+    </script>
+</head>
+<body>
+        <div id="div1">
+                <div class="img1" imgsrc="images/1.jpg"></div>
+                <div class="img1" imgsrc="images/2.jpg"></div>
+                <div class="img1" imgsrc="images/3.jpg"></div>
+                <div class="img1" imgsrc="images/4.jpg"></div>
+                <div class="img1" imgsrc="images/5.jpg"></div>
+                <div class="img1" imgsrc="images/6.jpg"></div>
+                <div class="img1" imgsrc="images/7.jpg"></div>
+                <div class="img1" imgsrc="images/8.jpg"></div>
+                <div class="img1" imgsrc="images/9.jpg"></div>
+                <div class="img1" imgsrc="images/10.jpg"></div>
+                <div class="img1" imgsrc="images/11.jpg"></div>
+                <div class="img1" imgsrc="images/12.jpg"></div>
+                <div class="img1" imgsrc="images/13.jpg"></div>
+                <div class="img1" imgsrc="images/14.jpg"></div>
+                <div class="img1" imgsrc="images/15.jpg"></div>
+                <div class="img1" imgsrc="images/16.jpg"></div>
+                <div class="img1" imgsrc="images/17.jpg"></div>
+                <div class="img1" imgsrc="images/18.jpg"></div>
+                <div class="img1" imgsrc="images/19.jpg"></div>
+                <div class="img1" imgsrc="images/20.jpg"></div>
+        </div>
+</body>
+</html>
