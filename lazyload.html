@@ -57,9 +57,10 @@
                 while(obj){
                     l += obj.offsetLeft;
                     t += obj.offsetTop;
+                    //向上层层迭代获取obj的父级定位直到offseParent 为null
                     obj = obj.offseParent;
                 }
-
+                //输出最终结果
                 return {left:l,top:t};
             }
         }
